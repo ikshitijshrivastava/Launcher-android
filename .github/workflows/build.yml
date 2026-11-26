@@ -10,7 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -o project.zip
+      - name: Unpack project
+        run: |
+          for z in *.zip; do [ -f "$z" ] && unzip -o "$z"; done
+          ls
+          test -f settings.gradle.kts || { echo "ERROR: project files not found in repo root. Upload project.zip to the main page of the repo."; exit 1; }
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
